@@ -21,7 +21,7 @@ x_train_scaled = scaler.fit_transform(x_train)
 x_valid_scaled = scaler.transform(x_valid)
 x_test_scaled = scaler.transform(x_test)
 
-#网络构建    函数式API
+#网络构建    一、函数式API
 input = keras.layers.Input(shape=x_train.shape[1:])
 # deep
 hidden1 = keras.layers.Dense(30,activation='relu')(input)
@@ -31,7 +31,25 @@ concat = keras.layers.concatenate([input,hidden2])
 output = keras.layers.Dense(1)(concat)
 
 model = keras.models.Model(inputs= [input],outputs =[output])
-
+'''
+# 网络构建   二、子类API
+class WideDeepModel(keras.models.Model):
+    def __init__(self):
+        super(WideDeepModel,self).__init__()
+        '''定义模型的层次'''
+        self.hidden1_layer = keras.layers.Dense(30,activation = 'relu')
+        self.hidden2_layer = keras.layers.Dense(30,activation = 'relu')
+        self.output_layer = keras.layers.Dense(1)
+    def call(self,input):
+        '''定义模型的正向计算'''
+        hidden1 = self.hidden1_layer(input)
+        hidden2 = self.hidden2_layer(hidden1)
+        concat = keras.layers.cooncatenate([input,hidden2])
+        output = self.output_layer(concat)
+        return output
+model = WideDeepModel()
+model.build(input_shape=(None,8))
+'''
 # 网络结构----不一样的
 # model.summary()
 
