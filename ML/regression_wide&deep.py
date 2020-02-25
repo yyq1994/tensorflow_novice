@@ -1,3 +1,5 @@
+#核心思想是结合广义线性模型的记忆能力（memorization）和深度前馈神经网络模型的泛化能力（generalization）
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
